@@ -12,10 +12,18 @@ for i in range(1,7,1):
     file=open(filename)
     print(filename, end=": ")
     size=float(file.readline())
-    high=0
+    minx=-1
+    maxx=-1
     width=0
-    file.readline()
-    width=len(file.readline().replace("\n","").split(" "))-1
+    arr=np.loadtxt(file)
+    for x in range(arr.shape[0]):
+        for y in range(arr.shape[1]):
+            if(arr[x,y]==1):
+                if(y<minx or minx==-1):
+                    minx=y
+                if(y>maxx or maxx==-1):
+                    maxx=y
+    width=maxx-minx
     print(round(width/size,2)," mm/px")
     file.close()
 
