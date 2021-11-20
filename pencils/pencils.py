@@ -36,7 +36,7 @@ for i in range(1,13,1):
     image = resize(image, (1000, 1000),anti_aliasing=True)
     graying=rgb2gray(image)
 
-    graying[graying>threshold]=0
+    graying[graying>threshold_otsu(graying)]=0
     graying[graying!=0]=1      
     labeled=label(graying)
 
