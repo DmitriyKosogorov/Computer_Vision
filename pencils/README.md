@@ -1,7 +1,6 @@
 output
-
+```
 img (1).jpg:  0
-
 img (2).jpg:  1
 
 img (3).jpg:  1
@@ -25,3 +24,4 @@ img (11).jpg:  3
 img (12).jpg:  1
 
 total_number_of_pencils =  21
+```
