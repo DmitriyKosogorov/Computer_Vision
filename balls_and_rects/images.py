@@ -9,7 +9,6 @@ def det_color(hsv):
     for i in range(1,len(info)):
         sumdif+=(info[i]-info[i-1])
     dif=sumdif/(len(info))
-    print(dif)
     k=0
     res=[[info[0],-1]]
     for i in range(1,len(info),1):
@@ -42,30 +41,29 @@ image=color.rgb2hsv(image)
 colors=det_color(image)
 rounds={}
 rects={}
+defolt_color=colors[0]
 for colorec in colors:
     rounds[colorec]=0
     rects[colorec]=0
    
 labeled=label(binary)
 regions=regionprops(labeled)
+i=0
 for region in regions:
     current_color=image[int((region.bbox[0]+region.bbox[2])/2),int((region.bbox[1]+region.bbox[3])/2),0]
     diff=100000
-    target_color=-1
+    target_color=defolt_color
     for colorec in colors:
         if(abs(current_color-colorec)<diff):
             diff=abs(current_color-colorec)
             target_color=colorec       
     if(not all_equals(labeled, region.bbox)):
         rounds[target_color]+=1
-        #plt.imshow(image[region.bbox[0]:region.bbox[2],region.bbox[1]:region.bbox[3]])
-        #plt.show()
     else:
         rects[target_color]+=1
-        #plt.imshow(image[region.bbox[0]:region.bbox[2],region.bbox[1]:region.bbox[3]])
-        #plt.show()
-    
+    i+=1
 summ=0
+
 for key in rounds.keys():
     summ+=rounds[key]
 print('Total number of rounds ',summ)
@@ -78,12 +76,13 @@ print()
 indexx=1
 summ=0
 for key in rects.keys():
-    summ+=rounds[key]
+    summ+=rects[key]
 print('Total number of rectangles ',summ)    
 for key in rects.keys():
     print(indexx,': ',rects[key])
     indexx+=1
 summ_all+=summ
+
 print('total number of figures: ',summ_all)
 
 diagram=[]
