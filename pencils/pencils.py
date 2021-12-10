@@ -2,7 +2,7 @@ from skimage import filters
 import matplotlib.pyplot as plt
 from skimage.color import rgb2gray
 from skimage.measure import regionprops, label
-from skimage.filters import try_all_threshold
+from skimage.filters import threshold_otsu
 from skimage.transform import resize
 import numpy as np
 
@@ -13,7 +13,7 @@ def longer(region:regionprops):
     width=abs(bbox[1]-bbox[3])
     if(width<20 or height<20):
         return False
-    if(height>width*2 or height*2<width):
+    if(height>width*5 or height*5<width):
         return True
     trues=0
     falses=0
@@ -23,7 +23,7 @@ def longer(region:regionprops):
                 trues+=1
             else:
                 falses+=1
-    if(falses>trues*2):
+    if(falses>(trues*5)):
         return True
     return False
 
@@ -42,7 +42,7 @@ for i in range(1,13,1):
 
     res=0
     for region in regionprops(labeled):
-      if region.perimeter>1200 and longer(region):
+      if region.perimeter>1400 and longer(region):
         if(show_regions==True):
             plt.imshow(region.image)
             plt.show()
